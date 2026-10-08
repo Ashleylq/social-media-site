@@ -4,11 +4,10 @@ import { prisma } from "../lib/prisma.js"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import passport from "passport"
-import { ResultWithContextImpl } from "express-validator/lib/chain/context-runner-impl.js"
 
 const authRouter = Router()
 
-authRouter.post('/signup/local',
+authRouter.post('/signup',
     [
         body("email")
         .trim()
@@ -17,8 +16,8 @@ authRouter.post('/signup/local',
         .isEmail().withMessage("Invalid Email Address"),
         body("username")
         .trim()
-        .custom(async username => {
-            const user = prisma.user.findUnique({where: {username : username}})
+        .custom(async value => {
+            const user = await prisma.user.findUnique({ where : {username : value}})
             if(user){
                 throw new Error("Username already exists")
             }
@@ -33,7 +32,7 @@ authRouter.post('/signup/local',
         body("password").trim(),
         body("confirmPassword")
         .trim()
-        .custom(async value => {
+        .custom(async (value, {req}) => {
             if(value !== req.body.password){
                 throw new Error("Passwords should match")
             }
@@ -63,7 +62,7 @@ authRouter.post('/signup/local',
         res.cookie('token', token, {
             maxAge : 7 * 24 * 60 * 60 * 1000,
             httpOnly : true,
-            secure : false,
+            secure : true,
             sameSite : 'lax'
         })
         res.json({
@@ -87,7 +86,7 @@ authRouter.post('/login', async (req, res) => {
             })
             res.cookie('token', token, {
                 maxAge : 7 * 24 * 60 * 60 * 1000,
-                secure : false,
+                secure : true,
                 httpOnly : true,
                 sameSite : 'lax'
             })
