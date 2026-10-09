@@ -15,7 +15,7 @@ const cookieExtractor = req => {
 function configPassport(passport){
     passport.use("local", new localStrat(async (username, password, done) => {
         try {
-            const user = prisma.user.findUnique({where : {username : username}})
+            const user = await prisma.user.findUnique({where : {username : username}})
             if(!user){
                 return done(null, false, {message: "Incorrect username"})
             }

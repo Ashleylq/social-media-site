@@ -1,6 +1,7 @@
-import Login from "./pages/auth/Login"
-import Signup from "./pages/auth/Signup"
+import Login from "./pages/auth/Login.jsx"
+import Signup from "./pages/auth/Signup.jsx"
 import UserContext from "./UserContext.jsx"
+import { useEffect, useState } from "react";
 
 function App(){
     const [user, setUser] = useState({});
@@ -8,7 +9,7 @@ function App(){
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
     }
-    const getCredentials = async () => {
+    const getCredentials = () => {
         const user = JSON.parse(localStorage.getItem("user"));
         if(!user){
             return;
@@ -20,14 +21,11 @@ function App(){
         localStorage.clear();
     }
     useEffect(() => {
-        async function runAsync(){
-            await getCredentials();
-        }
-        runAsync()
+        getCredentials();
     }, [])
     return (
         <UserContext.Provider value={{user, logIn, getCredentials, logOut}}>
-            <Signup/>
+            <Login/>
         </UserContext.Provider>
     )
 }
