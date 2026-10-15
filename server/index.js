@@ -13,6 +13,11 @@ app.set('trust proxy', 1)
 app.use("/api/auth", authRouter)
 
 app.use(express.static(path.join(import.meta.dirname, "../client/dist")))
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "../client/dist/index.html")
+  );
+});
 
 app.listen(3000, (err) => {
     if(err){throw(err)}

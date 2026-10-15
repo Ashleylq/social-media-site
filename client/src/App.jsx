@@ -1,5 +1,4 @@
-import Login from "./pages/auth/Login.jsx"
-import Signup from "./pages/auth/Signup.jsx"
+import { Outlet } from "react-router";
 import UserContext from "./UserContext.jsx"
 import { useEffect, useState } from "react";
 
@@ -25,7 +24,7 @@ function App(){
     }, [])
     return (
         <UserContext.Provider value={{user, logIn, getCredentials, logOut}}>
-            <Login/>
+            <Outlet/>
         </UserContext.Provider>
     )
 }
