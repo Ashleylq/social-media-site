@@ -1,0 +1,113 @@
+import { Router } from "express";
+import { prisma } from "../lib/prisma.js";
+import passport from "passport";
+
+const profileRouter = Router()
+
+profileRouter.use(passport.authenticate("jwt", {session : false}))
+
+async function getProfile(userId, updData=false){
+    const params = {
+        where : {
+            userId : userId
+        },
+        select : {
+            displayName : true,
+            profilePic : true,
+            bio : true,
+            userId : true,
+            id : true,
+            user : {
+                select : {
+                    username : true
+                }
+            },
+            followers : true,
+            following : true,
+            _count : {
+                select : {
+                    followers : true,
+                    following : true
+                }
+            }
+        }
+    }
+    const profile = {}
+    if(updData){
+        params.data = updData
+        profile = await prisma.profile.update(params)
+    }
+    else {
+        profile = await prisma.profile.findUnique(params)
+    }
+    return profile
+}
+
+profileRouter.get("/:id", async (req, res) => {
+    const id = req.params.id
+    const profile = await getProfile(parseInt(id))
+    res.json({profile : profile})
+})
+
+
+
+profileRouter.get("/", async (req, res) => {
+    const substring = req.query.substring
+    const profiles = await prisma.profile.findMany({
+        where : {
+            displayName : {
+                contains : substring,
+                mode : "insensitive"
+            }
+        },
+        select : {
+            profilePic : true,
+            displayName : true
+        },
+        include : {
+            user : {
+                select : {
+                    username : true
+                }
+            }
+        }
+    })
+    res.json({profiles : profiles})
+})
+
+profileRouter.put("/edit", async (req, res) => {
+    const {profilePic, displayName, bio} = req.body()
+    const profile = await getProfile(parseInt(req.user.id),
+        {
+            profilePic : profilePic,
+            displayName : displayName,
+            bio : bio
+        })
+    res.json({profile : profile})
+})
+
+profileRouter.post("/follow/:id", async (req, res) => {
+    const id = req.params.id
+    const profile = await getProfile(parseInt(id),{ 
+        followers : {
+            connect : {
+                userId : req.user.id
+            }
+        }
+    })
+    res.json({profile : profile})
+})
+
+profileRouter.delete("/unfollow/:id", async (req, res) => {
+    const id = req.params.id
+    const profile = await getProfile(parseInt(id),{
+        followers : {
+            disconnect : {
+                userId : req.user.id
+            }
+        }
+    })
+    res.json({profile : profile})
+})
+
+export default profileRouter

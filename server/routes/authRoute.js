@@ -52,7 +52,11 @@ authRouter.post('/signup',
             email : email,
             password : hashed,
             username : username,
-            displayName : displayName
+            profile : {
+                create : {
+                    displayName : displayName
+                }
+            }
         }})
         const token = jwt.sign({
             id : user.id
