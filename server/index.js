@@ -5,13 +5,44 @@ import profileRouter from "./routes/profileRoute.js"
 import authRouter from "./routes/authRoute.js"
 import path from "path"
 import cookieParser from "cookie-parser"
+import { verify, sign } from "jsonwebtoken"
+import "dotenv/config"
 
 const app = express()
+app.set('trust proxy', 1)
+
 app.use(passport.initialize())
 configPassport(passport)
 app.use(cookieParser())
 app.use(express.json())
-app.set('trust proxy', 1)
+
+app.use((req,res,next) => {
+  if(req.cookies){
+    const token = req.cookies['token']
+    try {
+      const verifiedPayload = verify(token, process.env.JWT_SECRET)
+      if((verifiedPayload.exp + 3600) < Math.floor(Date.now() / 1000)){
+        const token = sign({
+          id : req.user.id
+        }, process.env.JWT_SECRET, {
+          expiresIn : '7d'
+        })
+        res.cookie('token', token, {
+          maxAge : 7 * 24 * 60 * 60 * 1000,
+          secure : true,
+          httpOnly : true,
+          samesite : "lax"
+        })
+      }
+    }
+    catch(err){
+      if (err.name === 'TokenExpiredError') {
+        return res.status(401).json({ error: 'TokenExpiredError', message: 'Token has expired' });
+      }
+    }
+  }
+  next()
+})
 
 app.use("/api/auth", authRouter)
 app.use("/api/profile", profileRouter)
