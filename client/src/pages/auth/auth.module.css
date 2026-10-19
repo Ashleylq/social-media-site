@@ -5,8 +5,8 @@
   padding : 20px;
   border : 1px white;
   background : linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(144, 238, 144, 0.6));
-  backdrop-filter : blur(10px);
-  -webkit-backdrop-filter : blur(10px);
+  opacity : 0;
+  animation: fade-in 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   box-shadow : 4px 4px rgba(0, 0, 0, 0.25);
 
   .table {
@@ -53,5 +53,23 @@
     margin : 20px auto;
     width : max-content;
     height : max-content;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    transform : scale(0.9);
+    opacity : 0;
+  } to {
+    transform : scale(1);
+    opacity : 1;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+  }
+}
+
+@media (max-width : 768px){
+  .form {
+    width : 75vw
   }
 }

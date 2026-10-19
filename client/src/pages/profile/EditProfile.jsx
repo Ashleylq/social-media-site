@@ -10,11 +10,7 @@ function EditProfile(){
     const bioRef = useRef(null)
     const displayRef = useRef(null)
     const navigate = useNavigate()
-    const [profile, setProfile] = useState({
-        profilePic : null, 
-        displayName: "Lemonade",
-        bio : "sup"
-    })
+    const [profile, setProfile] = useState(null)
     useEffect(() => {
         async function fetchProfile(){
             if(!user || Object.keys(user) === 0){

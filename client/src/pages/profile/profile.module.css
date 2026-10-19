@@ -1,7 +1,7 @@
 .container {
+    opacity: 0;
+    animation: fade-in 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     background : linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(105, 207, 255, 0.6));
-    backdrop-filter : blur(10px);
-    -webkit-backdrop-filter : blur(10px);
     padding : 25px;
     width : 80%;
     border-radius : 20px;
@@ -64,4 +64,16 @@
     --bg-dark : rgba(255, 64, 0, 0.8);
     --bg : rgba(255, 64, 0, 0.4);
     --b-color : white
+}
+
+@keyframes fade-in{
+    from {
+        opacity : 0;
+        transform : scale(0.9);
+    } to {
+        opacity : 1;
+        transform : scale(0.95);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+    }
 }
