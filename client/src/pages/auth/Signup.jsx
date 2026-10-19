@@ -1,6 +1,7 @@
 import { useState, useRef, useContext } from "react"
 import styles from "./auth.module.css"
 import UserContext from "../../UserContext"
+import { useNavigate } from "react-router"
 
 function Signup(){
     const {logIn} = useContext(UserContext)
@@ -9,6 +10,7 @@ function Signup(){
     const displayRef = useRef(null)
     const [error, setError] = useState({path : null, msg : null})
     const [passwords, setPasswords] = useState({ password : "", confirm : "" })
+    const navigate = useNavigate()
     async function submit(e){
         e.preventDefault()
         if(passwords.password === ""){
@@ -40,6 +42,7 @@ function Signup(){
         }
         else if(res.status == 200){
             logIn(result.user)
+            navigate('/', {replace : true})
         }
     }
     return (

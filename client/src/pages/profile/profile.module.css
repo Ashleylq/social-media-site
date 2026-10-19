@@ -1,0 +1,67 @@
+.container {
+    background : linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(105, 207, 255, 0.6));
+    backdrop-filter : blur(10px);
+    -webkit-backdrop-filter : blur(10px);
+    padding : 25px;
+    width : 80%;
+    border-radius : 20px;
+    box-shadow : 4px 4px rgba(0, 0, 0, 0.4);
+    margin : 30px auto;
+    p, input, textarea, label {
+        font-family : "Sulphur Point";
+        margin-left : auto;
+        margin-right : auto;
+        width : max-content
+    }
+    textarea, input, label {
+        display : block;
+        margin-top : 15px;
+        margin-bottom : 15px;
+        font-size : 1rem
+    }
+}
+
+.pfp {
+    margin : auto;
+    width : max-content;
+}
+
+.displayName {
+    font-weight : bold;
+    font-size : 1.5rem;
+    margin-top : 10px;
+    margin-bottom : 0;
+}
+
+.username {
+    font-weight : lighter;
+    font-size : 0.8rem;
+    margin-top : 5px;
+    margin-bottom : 0;
+}
+
+.bio {
+    margin-top : 7.5px;
+    margin-bottom : 0;
+}
+
+.flex {
+    display : flex;
+    margin : 10px;
+    justify-content: space-around;
+    p {
+        font-weight: bold;
+    }
+}
+
+.edit {
+    --bg-dark : rgba(0, 50, 219, 0.8);
+    --bg : rgba(0, 50, 219, 0.4);
+    --b-color : white
+}
+
+.logout {
+    --bg-dark : rgba(255, 64, 0, 0.8);
+    --bg : rgba(255, 64, 0, 0.4);
+    --b-color : white
+}

@@ -7,6 +7,7 @@ const profileRouter = Router()
 profileRouter.use(passport.authenticate("jwt", {session : false}))
 
 async function getProfile(userId, updData=false){
+    console.log(userId)
     const params = {
         where : {
             userId : userId
@@ -32,7 +33,7 @@ async function getProfile(userId, updData=false){
             }
         }
     }
-    const profile = {}
+    let profile = {}
     if(updData){
         params.data = updData
         profile = await prisma.profile.update(params)
@@ -44,12 +45,11 @@ async function getProfile(userId, updData=false){
 }
 
 profileRouter.get("/:id", async (req, res) => {
-    const id = req.params.id
-    const profile = await getProfile(parseInt(id))
+    const id = parseInt(req.params.id)
+    console.log(id)
+    const profile = await getProfile(id, false)
     res.json({profile : profile})
 })
-
-
 
 profileRouter.get("/", async (req, res) => {
     const substring = req.query.substring
@@ -75,15 +75,15 @@ profileRouter.get("/", async (req, res) => {
     res.json({profiles : profiles})
 })
 
-profileRouter.put("/edit", async (req, res) => {
-    const {profilePic, displayName, bio} = req.body()
-    const profile = await getProfile(parseInt(req.user.id),
+profileRouter.put("/", async (req, res) => {
+    const {profilePic, displayName, bio} = req.body
+    await getProfile(parseInt(req.user.id),
         {
             profilePic : profilePic,
             displayName : displayName,
             bio : bio
         })
-    res.json({profile : profile})
+    res.status(204).end()
 })
 
 profileRouter.post("/follow/:id", async (req, res) => {

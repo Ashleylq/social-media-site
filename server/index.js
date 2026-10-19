@@ -5,7 +5,7 @@ import profileRouter from "./routes/profileRoute.js"
 import authRouter from "./routes/authRoute.js"
 import path from "path"
 import cookieParser from "cookie-parser"
-import { verify, sign } from "jsonwebtoken"
+import jwt from "jsonwebtoken"
 import "dotenv/config"
 
 const app = express()
@@ -20,9 +20,9 @@ app.use((req,res,next) => {
   if(req.cookies){
     const token = req.cookies['token']
     try {
-      const verifiedPayload = verify(token, process.env.JWT_SECRET)
+      const verifiedPayload = jwt.verify(token, process.env.JWT_SECRET)
       if((verifiedPayload.exp + 3600) < Math.floor(Date.now() / 1000)){
-        const token = sign({
+        const token = jwt.sign({
           id : req.user.id
         }, process.env.JWT_SECRET, {
           expiresIn : '7d'
