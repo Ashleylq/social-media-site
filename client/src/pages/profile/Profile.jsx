@@ -1,33 +1,17 @@
-import { useContext, useEffect, useState } from "react"
-import { useNavigate } from "react-router"
-import UserContext from "../../UserContext.jsx"
+import { useLoaderData, useNavigate } from "react-router"
 import ProfilePicture from "../../components/ProfilePicture.jsx"
 import styles from "./profile.module.css"
+import { logOut } from "../../utils/authFunctions.jsx"
 
 function Profile() {
-    const { user, logOut } = useContext(UserContext)
-    const [profile, setProfile] = useState(null)
+    const profile = useLoaderData()
     const navigate = useNavigate()
-    useEffect(() => {
-        async function fetchProfile(){
-            if(!user || Object.keys(user).length === 0){
-                navigate('/signup', {replace : true})
-            }
-            const res = await fetch(`/api/profile/${user.id}`)
-            if(res.status == 401){
-                navigate('/signup', {replace : true})
-            }
-            const result = await res.json()
-            setProfile(result.profile)
-        }
-        fetchProfile()
-    }, [])
-    async function logOutB(){
+    async function logOutApi(){
         logOut()
         await fetch("/api/auth/logout", {
             method : "POST"
         })
-        navigate('/signup')
+        navigate('/signup', {replace : true})
     }
     return (
         <>
@@ -36,7 +20,7 @@ function Profile() {
                 {(profile.displayName && profile.displayName !== "") ?
                     <><p className={styles.displayName}>{profile.displayName}</p>
                         <p className={styles.username}>{profile.user.username}</p></> :
-                    <p className={styles.username}>{profile.username}</p>}
+                    <p className={styles.displayName}>{profile.user.username}</p>}
                 <p className={styles.bio}>{profile.bio}</p>
                 <div className={styles.flex}>
                     <div className={styles.follows}>
@@ -49,7 +33,7 @@ function Profile() {
                     </div>
                 </div>
                 <div className={styles.flex}>
-                    <button className={styles.logout} onClick={() => logOutB()} >Logout</button>
+                    <button className={styles.logout} onClick={() => logOutApi()} >Logout</button>
                     <button className={styles.edit} onClick={() => navigate("/profile/edit")}>Edit</button>
                 </div>
             </div>

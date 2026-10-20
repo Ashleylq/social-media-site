@@ -6,6 +6,10 @@ import Signup from './pages/auth/Signup.jsx'
 import Login from './pages/auth/Login.jsx'
 import Profile from './pages/profile/Profile.jsx'
 import EditProfile from './pages/profile/EditProfile.jsx'
+import loadProfile from './loaders/profile/profileLoader.jsx'
+import editProfile from './actions/profile/editProfileAction.jsx'
+import signup from './actions/auth/signupAction.jsx'
+import loginAction from './actions/auth/loginAction.jsx'
 
 const Router = createBrowserRouter([{
   path : "/",
@@ -13,16 +17,21 @@ const Router = createBrowserRouter([{
   children : [
     {
       element : <Profile/>,
-      index : true
+      index : true,
+      loader : loadProfile
     },{
       element : <Signup/>,
-      path : "signup"
+      path : "signup",
+      action : signup
     },{
       element : <Login/>,
-      path : "login"
+      path : "login",
+      action : loginAction
     },{
       element : <EditProfile/>,
-      path : "profile/edit"
+      path : "profile/edit",
+      loader : loadProfile,
+      action : editProfile
     }
   ]
 }])

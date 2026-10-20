@@ -1,30 +1,12 @@
-import { useContext, useEffect, useRef, useState } from "react"
-import { useNavigate } from "react-router"
-import UserContext from "../../UserContext.jsx"
+import { useState, useRef } from "react"
+import { useLoaderData, useSubmit, Form } from "react-router"
 import styles from "./profile.module.css"
 import ProfilePicture from "../../components/ProfilePicture.jsx"
 
 function EditProfile(){
-    const {user} = useContext(UserContext)
+    const profile = useLoaderData()
     const imgRef = useRef(null)
-    const bioRef = useRef(null)
-    const displayRef = useRef(null)
-    const navigate = useNavigate()
-    const [profile, setProfile] = useState(null)
-    useEffect(() => {
-        async function fetchProfile(){
-            if(!user || Object.keys(user) === 0){
-                navigate('/signup', {replace : true})
-            }
-            const res = await fetch(`/api/profile/${user.id}`)
-            if(res.status === 401){
-                navigate('/signup', {replace : true})
-            }
-            const result = await res.json()
-            setProfile(result.profile)
-        }
-        fetchProfile()
-    }, [])
+    const [img, setImg] = useState(profile ? profile.profilePic : null)
     async function uploadImage(){
         const formdata = new FormData()
         formdata.append("upload_preset", import.meta.env.VITE_UPLOAD_PRESET)
@@ -34,37 +16,33 @@ function EditProfile(){
             body : formdata
         })
         const data = await imgRes.json()
-        setProfile(p => ({...p, profilePic : data["public_id"]}))
+        setImg(data["public_id"])
     }
-    async function submit(e){
+    const submitHook = useSubmit()
+    function submit(e){
         e.preventDefault()
-        const res = await fetch('/api/profile', {
-            method : "PUT",
-            headers : {"Content-Type" : "application/json"},
-            body : JSON.stringify({
-                profilePic : profile.profilePic,
-                displayName : displayRef.current.value,
-                bio : bioRef.current.value
-            })
+        const formData = new FormData(e.currentTarget);
+        const formValues = Object.fromEntries(formData.entries());
+        submitHook({
+            profilePic : img,
+            displayName : formValues.displayName,
+            bio : formValues.bio
+        }, {
+            method : "put",
+            encType : "application/json"
         })
-        if(res.status == 204){
-            navigate('/')
-        }
-        else if(res.status == 401){
-            navigate('/signup', {replace : true})
-        }
     }
     
     return (
         <>
-        {profile && <form className={styles.container} noValidate onSubmit={submit}>
-            <div className={styles.pfp}><ProfilePicture size={150} publicId={profile.profilePic}/></div>
+        {profile && <Form className={styles.container} noValidate onSubmit={submit}>
+            <div className={styles.pfp}><ProfilePicture size={150} publicId={img}/></div>
             <input onChange={uploadImage} type="file" name="pfp" id="pfp" ref={imgRef} style={{display : "none"}}/>
             <label for="pfp">Choose a profile pic</label>
-            <input value={profile.displayName} ref={displayRef} name="displayName" id="displayName"/>
-            <textarea value={profile.bio} ref={bioRef} name="bio" id="bio"/>
+            <input placeholder="Display Name" defaultValue={profile.displayName} name="displayName" id="displayName"/>
+            <textarea placeholder="Bio" defaultValue={profile.bio} name="bio" id="bio"/>
             <button className={styles.edit} type="submit">Edit</button>
-        </form>}
+        </Form>}
         </>
     )
 }

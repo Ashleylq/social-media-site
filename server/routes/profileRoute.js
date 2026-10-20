@@ -7,7 +7,6 @@ const profileRouter = Router()
 profileRouter.use(passport.authenticate("jwt", {session : false}))
 
 async function getProfile(userId, updData=false){
-    console.log(userId)
     const params = {
         where : {
             userId : userId
@@ -46,7 +45,6 @@ async function getProfile(userId, updData=false){
 
 profileRouter.get("/:id", async (req, res) => {
     const id = parseInt(req.params.id)
-    console.log(id)
     const profile = await getProfile(id, false)
     res.json({profile : profile})
 })
