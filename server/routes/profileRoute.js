@@ -60,9 +60,7 @@ profileRouter.get("/", async (req, res) => {
         },
         select : {
             profilePic : true,
-            displayName : true
-        },
-        include : {
+            displayName : true,
             user : {
                 select : {
                     username : true

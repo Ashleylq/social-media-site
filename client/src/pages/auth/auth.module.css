@@ -56,13 +56,13 @@
   }
 }
 
-@keyframes fade-in {
+@keyframes fade-in{
   from {
-    transform : scale(0.9);
     opacity : 0;
+    transform : scale(0.9);
   } to {
-    transform : scale(1);
     opacity : 1;
+    transform : scale(0.95);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
   }

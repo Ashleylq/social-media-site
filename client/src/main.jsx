@@ -10,6 +10,8 @@ import loadProfile from './loaders/profile/profileLoader.jsx'
 import editProfile from './actions/profile/editProfileAction.jsx'
 import signup from './actions/auth/signupAction.jsx'
 import loginAction from './actions/auth/loginAction.jsx'
+import SearchProfile from './pages/profile/SearchProfile.jsx'
+import searchProfile from './loaders/profile/searchProfileLoader.jsx'
 
 const Router = createBrowserRouter([{
   path : "/",
@@ -32,6 +34,10 @@ const Router = createBrowserRouter([{
       path : "profile/edit",
       loader : loadProfile,
       action : editProfile
+    }, {
+      element : <SearchProfile/>,
+      path : "profile/search",
+      loader : searchProfile
     }
   ]
 }])

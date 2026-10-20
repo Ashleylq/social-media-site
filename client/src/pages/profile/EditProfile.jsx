@@ -1,7 +1,7 @@
 import { useState, useRef } from "react"
 import { useLoaderData, useSubmit, Form } from "react-router"
 import styles from "./profile.module.css"
-import ProfilePicture from "../../components/ProfilePicture.jsx"
+import ProfilePicture from "../../components/profile/ProfilePicture.jsx"
 
 function EditProfile(){
     const profile = useLoaderData()

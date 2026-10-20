@@ -66,6 +66,46 @@
     --b-color : white
 }
 
+.searchbar {
+    background-color: white;
+    margin : 20px auto;
+    border-radius : 20px;
+    display : flex;
+    justify-content : end;
+    button {
+        box-shadow : none;
+        --bg-dark : rgba(105, 207, 255, 0.8);
+        --bg : rgba(105, 207, 255, 0.4);
+        --b-color : black;
+        margin-right : 2px;
+    }
+    button:hover,
+    button:active,
+    button:focus {
+        transform : none;
+        box-shadow : none;
+    }
+    input {
+        font-size: 1rem;
+        height : 1.5rem;
+        border-radius: 20px;
+        border : none;
+        width : 80%;
+        font-family : "Sulphur Point"
+    }
+    input:focus {
+        outline : none;
+        border : none;
+        border-radius : 20px;
+    }
+}
+
+@media (min-width : 768px){
+    .searchbar {
+        width : 50vw
+    }
+}
+
 @keyframes fade-in{
     from {
         opacity : 0;

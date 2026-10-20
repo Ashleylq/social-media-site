@@ -1,5 +1,5 @@
 import { useLoaderData, useNavigate } from "react-router"
-import ProfilePicture from "../../components/ProfilePicture.jsx"
+import ProfilePicture from "../../components/profile/ProfilePicture.jsx"
 import styles from "./profile.module.css"
 import { logOut } from "../../utils/authFunctions.jsx"
 
