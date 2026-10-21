@@ -7,7 +7,7 @@
     border-radius : 20px;
     box-shadow : 4px 4px rgba(0, 0, 0, 0.4);
     margin : 30px auto;
-    p, input, textarea, label {
+    p, input, textarea, label, .error {
         font-family : "Sulphur Point";
         margin-left : auto;
         margin-right : auto;
@@ -19,6 +19,10 @@
         margin-bottom : 15px;
         font-size : 1rem
     }
+}
+
+.error {
+    color : #ff4000
 }
 
 .pfp {
