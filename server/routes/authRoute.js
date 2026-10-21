@@ -111,7 +111,7 @@ authRouter.post('/logout', async (req, res) => {
         }
         else {
             res.clearCookie("token")
-            res.send("Successfully logged out")
+            res.status(204).end()
         }
     })(req, res)
 })

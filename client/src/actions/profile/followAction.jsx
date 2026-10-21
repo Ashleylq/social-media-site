@@ -1,0 +1,18 @@
+import { redirect } from "react-router";
+
+export default async function follow({request}){
+    const data = await request.json()
+    let res;
+    switch(data["intent"]){
+        case "unfollow":
+            res = await fetch(`/api/profile/unfollow/${data["id"]}`, {method : "DELETE"})
+            break;
+        case "follow":
+            res = await fetch(`/api/profile/follow/${data["id"]}`, {method : "POST"})
+            break;
+    }
+    if(res.status === 401){
+        return redirect('/signup')
+    }
+    return;
+}

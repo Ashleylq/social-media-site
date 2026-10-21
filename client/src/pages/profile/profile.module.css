@@ -54,7 +54,7 @@
     }
 }
 
-.edit {
+.edit, .follow {
     --bg-dark : rgba(0, 50, 219, 0.8);
     --bg : rgba(0, 50, 219, 0.4);
     --b-color : white

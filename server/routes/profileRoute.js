@@ -65,7 +65,8 @@ profileRouter.get("/", async (req, res) => {
                 select : {
                     username : true
                 }
-            }
+            },
+            userId : true
         }
     })
     res.json({profiles : profiles})
@@ -84,26 +85,26 @@ profileRouter.put("/", async (req, res) => {
 
 profileRouter.post("/follow/:id", async (req, res) => {
     const id = req.params.id
-    const profile = await getProfile(parseInt(id),{ 
+    await getProfile(parseInt(id),{ 
         followers : {
             connect : {
                 userId : req.user.id
             }
         }
     })
-    res.json({profile : profile})
+    res.status(204).end()
 })
 
 profileRouter.delete("/unfollow/:id", async (req, res) => {
     const id = req.params.id
-    const profile = await getProfile(parseInt(id),{
+    await getProfile(parseInt(id),{
         followers : {
             disconnect : {
                 userId : req.user.id
             }
         }
     })
-    res.json({profile : profile})
+    res.status(204).end()
 })
 
 export default profileRouter

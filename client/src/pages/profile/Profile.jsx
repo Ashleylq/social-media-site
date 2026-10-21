@@ -1,10 +1,11 @@
-import { useLoaderData, useNavigate } from "react-router"
+import { Link, useLoaderData, useNavigate, useSubmit } from "react-router"
 import ProfilePicture from "../../components/profile/ProfilePicture.jsx"
 import styles from "./profile.module.css"
-import { logOut } from "../../utils/authFunctions.jsx"
+import { getCredentials, logOut } from "../../utils/authFunctions.jsx"
 
 function Profile() {
     const profile = useLoaderData()
+    const user = getCredentials()
     const navigate = useNavigate()
     async function logOutApi(){
         logOut()
@@ -12,6 +13,17 @@ function Profile() {
             method : "POST"
         })
         navigate('/signup', {replace : true})
+    }
+    const isFollower = () =>  (profile.followers.some(follower => follower.userId === user.id))
+    const submit = useSubmit()
+    function follow(){
+        submit({
+            id : profile.userId,
+            intent : isFollower() ? "unfollow" : "follow"
+        }, {
+            method : isFollower() ? "delete" : "post",
+            encType : "application/json"
+        })
     }
     return (
         <>
@@ -32,10 +44,10 @@ function Profile() {
                         <p style={{fontSize : "1.5rem"}}>{profile._count.following}</p>
                     </div>
                 </div>
-                <div className={styles.flex}>
+                {(user.id === profile.userId) ? <div className={styles.flex}>
                     <button className={styles.logout} onClick={() => logOutApi()} >Logout</button>
-                    <button className={styles.edit} onClick={() => navigate("/profile/edit")}>Edit</button>
-                </div>
+                    <button className={styles.edit}><Link to={"/profile/edit"}>Edit</Link></button>
+                </div> : <button onClick={follow} className={styles.follow}>{isFollower() ? "Unfollow" : "Follow"}</button>}
             </div>
             }
         </>
