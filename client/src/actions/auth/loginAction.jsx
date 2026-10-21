@@ -23,4 +23,7 @@ export default async function loginAction({request}){
     else if(res.status == 401){
         return ({path : "global", msg : result.message})
     }
+    else {
+        throw new Response("Internal Error", {status : 500})
+    }
 }

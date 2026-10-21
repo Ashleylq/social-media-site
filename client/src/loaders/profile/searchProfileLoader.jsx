@@ -7,6 +7,9 @@ export default async function searchProfile({request}){
     if(res.status == 401){
         return redirect('/signup')
     }
+    if(!res.ok){
+        throw new Response("Internal Error", {status : 500})
+    }
     const result = await res.json()
     return result.profiles
 }

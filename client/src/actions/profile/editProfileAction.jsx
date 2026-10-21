@@ -13,4 +13,7 @@ export default async function editProfile({request}){
         else if(res.status == 401){
             return redirect('/signup')
         }
+        else {
+            throw new Response("Internal Error", {status : 500})
+        }
     }

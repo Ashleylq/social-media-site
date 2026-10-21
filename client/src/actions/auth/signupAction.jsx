@@ -26,4 +26,7 @@ export default async function signup({request}){
             login(result.user)
             return redirect('/')
         }
+        else {
+            throw new Response("Internal Error", {status : 500})
+        }
     }

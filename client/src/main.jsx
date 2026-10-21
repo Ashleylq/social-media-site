@@ -13,10 +13,12 @@ import loginAction from './actions/auth/loginAction.jsx'
 import SearchProfile from './pages/profile/SearchProfile.jsx'
 import searchProfile from './loaders/profile/searchProfileLoader.jsx'
 import follow from './actions/profile/followAction.jsx'
+import ErrorBoundary from './components/errorBoundary/ErrorBoundary.jsx'
 
 const Router = createBrowserRouter([{
   path : "/",
   element : <App/>,
+  errorElement : <ErrorBoundary/>,
   children : [
     {
       element : <Profile/>,
@@ -44,6 +46,10 @@ const Router = createBrowserRouter([{
       path : "profile/:id",
       loader : loadProfile,
       action : follow
+    }, {
+      path : "*",
+      element : <ErrorBoundary/>,
+      loader : () => { throw new Response("Page doesn't exist", {status : 404}) }
     }
   ]
 }])

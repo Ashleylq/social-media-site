@@ -14,6 +14,12 @@ export default async function loadProfile({params}){
     if(res.status == 401){
         return redirect('/signup')
     }
+    if(!res.ok){
+        throw new Response("Internal Error", {status : 500})
+    }
     const result = await res.json()
+    if(!result.profile){
+        throw new Response("Resource not found", {status : 404})
+    }
     return result.profile;
 }

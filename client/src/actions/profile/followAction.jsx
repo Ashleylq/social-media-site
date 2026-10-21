@@ -14,5 +14,8 @@ export default async function follow({request}){
     if(res.status === 401){
         return redirect('/signup')
     }
+    else if(!res.ok){
+        throw new Response("Internal Error", {status : 500})
+    }
     return;
 }
