@@ -100,9 +100,33 @@
     }
 }
 
+.dialog {
+    overflow-y : auto;
+    width : 50vw;
+    height : 80vh;
+    animation : fade-in 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    opacity : 0;
+    border-radius : 20px;
+    box-shadow : 4px 4px rgba(0, 0, 0, 0.4);
+    background : linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(144, 238, 144, 0.6));
+    border : none;
+    position : relative;
+    span {
+        position : absolute;
+        font-size: 1.5rem;
+        top : 1.5rem;
+        right : 1.5rem;
+        font-family: "Segoe UI", "Lucida Grande", Tahoma, Arial ,sans-serif;
+    }
+}
+
 @media (min-width : 768px){
     .searchbar {
         width : 50vw
+    }
+    .dialog {
+        width : 80vw;
+        height : 50vh;
     }
 }
 

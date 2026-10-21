@@ -22,8 +22,22 @@ async function getProfile(userId, updData=false){
                     username : true
                 }
             },
-            followers : true,
-            following : true,
+            followers : {
+                select : {
+                    displayName : true,
+                    profilePic : true,
+                    userId : true,
+                    user : true
+                }
+            },
+            following : {
+                select : {
+                    displayName : true,
+                    profilePic : true,
+                    userId : true,
+                    user : true
+                }
+            },
             _count : {
                 select : {
                     followers : true,
