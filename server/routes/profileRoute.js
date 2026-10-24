@@ -22,6 +22,7 @@ async function getProfile(userId, updData=false){
                     username : true
                 }
             },
+            post : true,
             followers : {
                 select : {
                     displayName : true,

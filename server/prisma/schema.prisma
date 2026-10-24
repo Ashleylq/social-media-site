@@ -24,4 +24,21 @@ model profile {
   user user @relation(fields : [userId], references: [id])
   followers profile[] @relation("userFollows")
   following profile[] @relation("userFollows")
+  post post[]
+}
+
+model post {
+  id Int @id@default(autoincrement())
+  content String
+  attachment String?
+  uploaded_at DateTime @default(now())
+  profile profile @relation(fields : [profileId], references: [id])
+  profileId Int
+  category category[] @relation("postCategory")
+}
+
+model category {
+  id Int @id@default(autoincrement())
+  name String @unique
+  post post[] @relation("postCategory")
 }

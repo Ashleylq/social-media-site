@@ -37,7 +37,17 @@ function configPassport(passport){
             return done('Unauthorized', false)
         }
         try {
-            const user = await prisma.user.findUnique({where : {id : payload.id}})
+            const user = await prisma.user.findUnique({
+                where : {id : payload.id},
+                select : {
+                    id : true,
+                    profile : {
+                        select : {
+                            id : true
+                        }
+                    }
+                }
+            })
             if(!user){
                 return done(null, false)
             }

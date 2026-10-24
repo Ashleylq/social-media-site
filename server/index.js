@@ -7,6 +7,7 @@ import path from "path"
 import cookieParser from "cookie-parser"
 import jwt from "jsonwebtoken"
 import "dotenv/config"
+import postsRoute from "./routes/postsRoute.js"
 
 const app = express()
 app.set('trust proxy', 1)
@@ -46,6 +47,7 @@ app.use((req,res,next) => {
 
 app.use("/api/auth", authRouter)
 app.use("/api/profile", profileRouter)
+app.use("/api/post", postsRoute)
 
 app.use(express.static(path.join(import.meta.dirname, "../client/dist")))
 app.get("/{*splat}", (req, res) => {
