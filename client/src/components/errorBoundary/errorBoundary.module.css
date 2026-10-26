@@ -1,0 +1,25 @@
+.errorBoundary {
+    font-family : "Segoe UI", "Lucida Grande", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight : bold;
+    color : white;
+    background : linear-gradient(135deg, rgba(0, 50, 219, 0.8), rgba(56, 171, 228, 0.8));
+    padding : 4px;
+    margin : 30vh auto;
+    width : 40%;
+    border-radius : 4px;
+    p {
+        font-weight : normal;
+        color : black;
+        background-color : whitesmoke;
+        padding : 10px;
+        margin-bottom : 0;
+        border-radius : 4px;
+        margin-top : 4px
+    }
+}
+
+@media (max-width : 768px){
+    .errorBoundary {
+        width : 70%;
+    }
+}
