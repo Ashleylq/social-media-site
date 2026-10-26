@@ -13,6 +13,11 @@ import SearchProfile from './pages/profile/SearchProfile.jsx'
 import searchProfile from './loaders/profile/searchProfileLoader.jsx'
 import follow from './actions/profile/followAction.jsx'
 import ErrorBoundary from './components/errorBoundary/ErrorBoundary.jsx'
+import Posts from './pages/posts/Posts.jsx'
+import CreatePost from './pages/posts/CreatePost.jsx'
+import createPost from './actions/posts/createPost.jsx'
+import GlobalPosts from './pages/posts/GlobalPosts.jsx'
+import loadPosts from './loaders/posts/postLoader.jsx'
 
 const Router = createBrowserRouter([{
   path : "/",
@@ -45,6 +50,20 @@ const Router = createBrowserRouter([{
       path : "profile/:id",
       loader : loadProfile,
       action : follow
+    }, {
+      element : <Posts/>,
+      path : "posts/",
+      children : [
+        {
+          element : <GlobalPosts/>,
+          index : true,
+          loader : loadPosts
+        },{
+          element : <CreatePost/>,
+          path : "create",
+          action : createPost
+        }
+      ]
     }, {
       path : "*",
       element : <ErrorBoundary/>,
