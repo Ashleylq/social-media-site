@@ -1,7 +1,8 @@
 import { redirect } from "react-router";
 
 export default async function follow({request}){
-    const data = await request.json()
+    const formdata = await request.formData()
+    const data = Object.fromEntries(formdata)
     let res;
     switch(data["intent"]){
         case "unfollow":

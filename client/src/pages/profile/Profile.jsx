@@ -1,4 +1,4 @@
-import { Link, useLoaderData, useNavigate, useSubmit } from "react-router"
+import { Link, useFetcher, useLoaderData, useNavigate } from "react-router"
 import ProfilePicture from "../../components/profile/ProfilePicture.jsx"
 import ProfileList from "../../components/profile/ProfileList.jsx"
 import styles from "./profile.module.css"
@@ -19,16 +19,7 @@ function Profile() {
         navigate('/signup', {replace : true})
     }
     const isFollower = () =>  (profile.followers.some(follower => follower.userId === user.id))
-    const submit = useSubmit()
-    function follow(){
-        submit({
-            id : profile.userId,
-            intent : isFollower() ? "unfollow" : "follow"
-        }, {
-            method : isFollower() ? "delete" : "post",
-            encType : "application/json"
-        })
-    }
+    const fetcher = useFetcher()
     return (
         <>
             {profile && <div className={styles.container}>
@@ -59,7 +50,17 @@ function Profile() {
                 {(user.id === profile.userId) ? <div className={styles.flex}>
                     <button className={styles.logout} onClick={() => logOutApi()} >Logout</button>
                     <button className={styles.edit}><Link to={"/profile/edit"}>Edit</Link></button>
-                </div> : <button onClick={follow} className={styles.follow}>{isFollower() ? "Unfollow" : "Follow"}</button>}
+                </div> : <>
+                    {isFollower() ? 
+                    <fetcher.Form method="DELETE">
+                        <input name="id" value={profile.userId} style={{display : "none"}}/>
+                        <button name="intent" value="unfollow" type="submit" className={styles.follow}>{fetcher.state !== "idle" ? "Unfollowing" : "Unfollow"}</button>
+                    </fetcher.Form> : 
+                    <fetcher.Form method="POST"> 
+                        <input name="id" value={profile.userId} style={{display : "none"}}/>
+                        <button name="intent" value="follow" type="submit" className={styles.follow}>{fetcher.state !== "idle" ? "Following" : "Follow"}</button>
+                    </fetcher.Form>} </>
+                }
             </div>
             }
         </>
