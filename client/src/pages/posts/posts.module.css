@@ -4,6 +4,8 @@
     width : 80%;
     border-radius: 20px;
     box-shadow: 4px 4px rgba(0, 0, 0, 0.4);
+    opacity : 0;
+    animation: fade-in 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     margin : 30px auto;
     input, textarea, label, p {
         font-family: "Sulphur Point";
@@ -42,4 +44,17 @@
     --bg-dark : rgba(0, 50, 219, 0.8);
     --bg : rgba(0, 50, 219, 0.4);
     --b-color : white
+}
+
+@keyframes fade-in {
+    from {
+        opacity : 0;
+        transform : scale(0.9)
+    }
+    to {
+        opacity : 1;
+        transform : scale(1);
+        backdrop-filter : blur(15px);
+        -webkit-backdrop-filter : blur(15px)
+    }
 }
