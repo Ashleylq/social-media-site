@@ -4,11 +4,11 @@ import { redirect } from "react-router"
 export default async function loadProfile({params}){
     let id = params.id
     const user = getCredentials()
-    if(id === undefined){
-        id = user.id
-    }
     if(!user || Object.keys(user).length === 0){
         return redirect('/signup')
+    }
+    if(id === undefined){
+        id = user.id
     }
     const res = await fetch(`/api/profile/${id}`)
     if(res.status == 401){

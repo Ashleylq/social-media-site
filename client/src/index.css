@@ -35,6 +35,18 @@ body {
   height : 100dvh;
   position : relative;
   z-index: 1;
+  display : flex;
+  overflow : hidden;
+}
+
+.navbar-container {
+  flex-shrink : 0;
+  overflow : hidden
+}
+
+main {
+  flex-grow : 1;
+  overflow-y: auto;
 }
 
 a, a:focus, a:active, a:visited {
@@ -101,6 +113,9 @@ button {
 @media (max-width : 768px){
     .bg {
         background-image: url(./assets/mobWallpaper.jpeg);
+    }
+    .content {
+      flex-direction: column-reverse;
     }
 }
 

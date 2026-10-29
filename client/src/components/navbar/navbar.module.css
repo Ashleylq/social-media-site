@@ -1,0 +1,40 @@
+.nav {
+    display : flex;
+    justify-content: space-around;
+    opacity : 0;
+    flex-direction : column;
+    height : 70dvh;
+    width : max-content;
+    background: linear-gradient(135deg, rgba(109, 214, 236, 0.6), rgba(109, 214, 236, 0.99));
+    border-radius : 5px;
+    padding : 5px;
+    margin : 12.5dvh 5px;
+    animation : fade-in 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    a {
+        display : block;
+    }
+}
+
+@media (max-width : 768px){
+    .nav {
+        flex-direction: row;
+        height : max-content;
+        min-width: 60vw;
+        width : max-content;
+        gap : 10px;
+        margin : 5px auto;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity : 0;
+        transform : translateX(-100%)
+    }
+    to {
+        opacity : 1;
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        transform : translateX(0)
+    }
+}

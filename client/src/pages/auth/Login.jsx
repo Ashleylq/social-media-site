@@ -1,5 +1,5 @@
 import styles from "./auth.module.css"
-import { useActionData, Form } from "react-router"
+import { useActionData, Form, Link } from "react-router"
 
 function Login(){
     const error = useActionData()
@@ -24,6 +24,7 @@ function Login(){
             </div>
             <button type="submit">Login</button>
             {(error && error.path === "global") && <p className={styles.global}>{error.msg}</p>}
+            <button className={styles.nav} type="button"><Link to={"/signup"}>Sign Up</Link></button>
         </Form>
         </>
     )

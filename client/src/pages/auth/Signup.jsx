@@ -1,5 +1,5 @@
 import styles from "./auth.module.css"
-import { useActionData, Form } from "react-router"
+import { useActionData, Form, Link } from "react-router"
 
 function Signup(){
     const error = useActionData()
@@ -43,6 +43,7 @@ function Signup(){
                 </div>
             </div>
             <button type="submit">Sign Up</button>
+            <button type="button" className={styles.nav}><Link to={"/login"}>Login</Link></button>
         </Form>
         </>
     )

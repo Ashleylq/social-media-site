@@ -45,6 +45,13 @@
     --b-color : black;
   }
 
+  .nav {
+    --bg: rgba(0, 50, 219, 0.8);
+    --bg-dark : rgba(0, 50, 219, 0.4);
+    --b-color : white;
+    margin-top : 5px
+  }
+
   p {
     color : #ff4000;
     font-family : "Sulphur Point";
