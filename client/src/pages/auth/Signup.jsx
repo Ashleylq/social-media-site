@@ -1,8 +1,10 @@
+import { useAudio } from "../../utils/audioContext"
 import styles from "./auth.module.css"
 import { useActionData, Form, Link } from "react-router"
 
 function Signup(){
     const error = useActionData()
+    const {playSfx} = useAudio()
     return (
         <>
         <Form className={styles.form} method="post" noValidate>
@@ -42,8 +44,8 @@ function Signup(){
                     </div>
                 </div>
             </div>
-            <button type="submit">Sign Up</button>
-            <button type="button" className={styles.nav}><Link to={"/login"}>Login</Link></button>
+            <button onClick={() => playSfx("click")} type="submit">Sign Up</button>
+            <button onClick={() => playSfx("link")} type="button" className={styles.nav}><Link to={"/login"}>Login</Link></button>
         </Form>
         </>
     )

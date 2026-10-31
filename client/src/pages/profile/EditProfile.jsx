@@ -2,8 +2,10 @@ import { useState, useRef } from "react"
 import { useLoaderData, useSubmit, Form } from "react-router"
 import styles from "./profile.module.css"
 import ProfilePicture from "../../components/profile/ProfilePicture.jsx"
+import { useAudio } from "../../utils/audioContext.jsx"
 
 function EditProfile(){
+    const {playSfx} = useAudio()
     const profile = useLoaderData()
     const imgRef = useRef(null)
     const [error, setError] = useState(null)
@@ -51,7 +53,7 @@ function EditProfile(){
             <label for="pfp">Choose a profile pic</label>
             <input placeholder="Display Name" defaultValue={profile.displayName} name="displayName" id="displayName"/>
             <textarea placeholder="Bio" defaultValue={profile.bio} name="bio" id="bio"/>
-            <button className={styles.edit} type="submit">Edit</button>
+            <button onClick={() => playSfx("click")} className={styles.edit} type="submit">Edit</button>
         </Form>}
         </>
     )

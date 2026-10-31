@@ -1,8 +1,10 @@
+import { useAudio } from "../../utils/audioContext"
 import styles from "./auth.module.css"
 import { useActionData, Form, Link } from "react-router"
 
 function Login(){
     const error = useActionData()
+    const {playSfx} = useAudio()
     return (
         <>
         <Form noValidate className={styles.form} method="post">
@@ -22,9 +24,9 @@ function Login(){
                     </div>
                 </div>
             </div>
-            <button type="submit">Login</button>
+            <button onClick={() => playSfx("click")} type="submit">Login</button>
             {(error && error.path === "global") && <p className={styles.global}>{error.msg}</p>}
-            <button className={styles.nav} type="button"><Link to={"/signup"}>Sign Up</Link></button>
+            <button onClick={() => playSfx("link")} className={styles.nav} type="button"><Link to={"/signup"}>Sign Up</Link></button>
         </Form>
         </>
     )

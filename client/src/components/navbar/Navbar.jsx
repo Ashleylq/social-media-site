@@ -4,8 +4,11 @@ import DynamicFeedIcon from '@mui/icons-material/DynamicFeed'
 import SearchIcon from '@mui/icons-material/Search'
 import PersonIcon from '@mui/icons-material/Person'
 import ChatIcon from '@mui/icons-material/Chat'
+import AudioTrackIcon from '@mui/icons-material/Audiotrack'
+import { useAudio } from "../../utils/audioContext"
 
 export default function Navbar(){
+    const {togglePlayPause, playSfx} = useAudio()
     const styling = {
         fontSize : 32,
         color : 'rgba(30, 123, 30, 0.8)',
@@ -19,10 +22,11 @@ export default function Navbar(){
     }
     return (
         <nav className={styles.nav}>
-            <NavLink to={"/posts"}><DynamicFeedIcon sx={styling}/></NavLink>
-            <NavLink to={"/"}><PersonIcon sx={styling}/></NavLink>
-            <NavLink to={"/profile/search"}><SearchIcon sx={styling}/></NavLink>
-            <NavLink to={"/chat"}><ChatIcon sx={styling}/></NavLink>
+            <NavLink onClick={() => playSfx("link")} to={"/posts"}><DynamicFeedIcon sx={styling}/></NavLink>
+            <NavLink onClick={() => playSfx("link")} to={"/"}><PersonIcon sx={styling}/></NavLink>
+            <NavLink onClick={() => playSfx("link")} to={"/profile/search"}><SearchIcon sx={styling}/></NavLink>
+            <NavLink onClick={() => playSfx("link")} to={"/chat"}><ChatIcon sx={styling}/></NavLink>
+            <span onClick={() => togglePlayPause()}><AudioTrackIcon sx={styling}/></span>
         </nav>
     )
 }

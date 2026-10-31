@@ -1,6 +1,7 @@
 import { Form, useSubmit } from "react-router"
 import styles from "./posts.module.css"
 import { useRef, useState } from "react"
+import { useAudio } from "../../utils/audioContext"
 
 function CreatePost(){
     const imgRef = useRef(null)
@@ -8,6 +9,7 @@ function CreatePost(){
     const categoryRef = useRef(null)
     const [img, setImg] = useState(null)
     const [categories, setCategories] = useState([])
+    const {playSfx} = useAudio()
     function addCategory(e){
         if(e.key === "Enter" || e.key === ","){
             e.preventDefault()
@@ -48,7 +50,7 @@ function CreatePost(){
             <label for="attachment">Upload Attachment</label>
             <input ref={categoryRef} onKeyDown={addCategory} name="categories" id="categories" placeholder="Category"/>
             {categories.map((category, index) => <p key={index}>{category}<span onClick={() => setCategories(categories.filter((_, i) => i !== index))}>X</span></p>)}
-            <button className={styles.create}>Create</button>
+            <button onClick={() => playSfx("click")} className={styles.create}>Create</button>
         </Form>
     )
 }

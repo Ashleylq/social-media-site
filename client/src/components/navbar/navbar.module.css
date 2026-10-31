@@ -10,7 +10,7 @@
     padding : 5px;
     margin : 12.5dvh 5px;
     animation : fade-in 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-    a {
+    a, span {
         display : block;
     }
 }

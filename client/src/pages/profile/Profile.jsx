@@ -4,8 +4,10 @@ import ProfileList from "../../components/profile/ProfileList.jsx"
 import styles from "./profile.module.css"
 import { getCredentials, logOut } from "../../utils/authFunctions.jsx"
 import { useRef } from "react"
+import { useAudio } from "../../utils/audioContext.jsx"
 
 function Profile() {
+    const {playSfx} = useAudio()
     const profile = useLoaderData()
     const user = getCredentials()
     const navigate = useNavigate()
@@ -24,11 +26,17 @@ function Profile() {
         <>
             {profile && <div className={styles.container}>
                 <dialog className={styles.dialog} ref={fersDialogRef}>
-                    <span onClick={() => fersDialogRef.current.close()}>X</span>
+                    <span onClick={() => {
+                        fersDialogRef.current.close()
+                        playSfx("click")
+                    }}>X</span>
                     <ProfileList profiles={profile.followers} />
                 </dialog>
                 <dialog className={styles.dialog} ref={fingDialogRef}>
-                    <span onClick={() => fingDialogRef.current.close()}>X</span>
+                    <span onClick={() => {
+                        fingDialogRef.current.close()
+                        playSfx("click")
+                    }}>X</span>
                     <ProfileList profiles={profile.following} />
                 </dialog>
                 <div className={styles.pfp}><ProfilePicture size={150} publicId={profile.profilePic} /></div>
@@ -38,27 +46,36 @@ function Profile() {
                     <p className={styles.displayName}>{profile.user.username}</p>}
                 <p className={styles.bio}>{profile.bio}</p>
                 <div className={styles.flex}>
-                    <div className={styles.follows} onClick={() => fersDialogRef.current.showModal()}>
+                    <div className={styles.follows} onClick={() => {
+                        fersDialogRef.current.showModal()
+                        playSfx("click")
+                    }}>
                         <p>Followers: </p>
                         <p style={{fontSize : "1.5rem"}}>{profile._count.followers}</p>
                     </div>
-                    <div className={styles.follows} onClick={() => fingDialogRef.current.showModal()}>
+                    <div className={styles.follows} onClick={() => {
+                        fingDialogRef.current.showModal()
+                        playSfx("click")
+                    }}>
                         <p>Following: </p>
                         <p style={{fontSize : "1.5rem"}}>{profile._count.following}</p>
                     </div>
                 </div>
                 {(user.id === profile.userId) ? <div className={styles.flex}>
-                    <button className={styles.logout} onClick={() => logOutApi()} >Logout</button>
-                    <button className={styles.edit}><Link to={"/profile/edit"}>Edit</Link></button>
+                    <button className={styles.logout} onClick={() => {
+                        logOutApi()
+                        playSfx("click")
+                    }} >Logout</button>
+                    <button className={styles.edit}><Link onClick={() => playSfx("link")} to={"/profile/edit"}>Edit</Link></button>
                 </div> : <>
                     {isFollower() ? 
                     <fetcher.Form method="DELETE">
                         <input name="id" value={profile.userId} style={{display : "none"}}/>
-                        <button name="intent" value="unfollow" type="submit" className={styles.follow}>{fetcher.state !== "idle" ? "Unfollowing" : "Unfollow"}</button>
+                        <button onClick={() => playSfx("click")} name="intent" value="unfollow" type="submit" className={styles.follow}>{fetcher.state !== "idle" ? "Unfollowing" : "Unfollow"}</button>
                     </fetcher.Form> : 
                     <fetcher.Form method="POST"> 
                         <input name="id" value={profile.userId} style={{display : "none"}}/>
-                        <button name="intent" value="follow" type="submit" className={styles.follow}>{fetcher.state !== "idle" ? "Following" : "Follow"}</button>
+                        <button onClick={() => playSfx("click")} name="intent" value="follow" type="submit" className={styles.follow}>{fetcher.state !== "idle" ? "Following" : "Follow"}</button>
                     </fetcher.Form>} </>
                 }
             </div>
