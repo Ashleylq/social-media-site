@@ -16,13 +16,13 @@ import ErrorBoundary from './components/errorBoundary/ErrorBoundary.jsx'
 import Posts from './pages/posts/Posts.jsx'
 import CreatePost from './pages/posts/CreatePost.jsx'
 import createPost from './actions/posts/createPost.jsx'
-import GlobalPosts from './pages/posts/GlobalPosts.jsx'
+import ViewPosts from './pages/posts/ViewPosts.jsx'
 import loadPosts from './loaders/posts/postLoader.jsx'
 
 const Router = createBrowserRouter([{
   path : "/",
   element : <App/>,
-  errorElement : <ErrorBoundary/>,
+  //errorElement : <ErrorBoundary/>,
   children : [
     {
       element : <Profile/>,
@@ -52,16 +52,24 @@ const Router = createBrowserRouter([{
       action : follow
     }, {
       element : <Posts/>,
-      path : "posts/",
+      path : "posts",
       children : [
         {
-          element : <GlobalPosts/>,
+          element : <ViewPosts/>,
           index : true,
           loader : loadPosts
         },{
           element : <CreatePost/>,
           path : "create",
           action : createPost
+        },{
+          element : <ViewPosts/>,
+          path : "following",
+          loader : loadPosts
+        },{
+          element : <ViewPosts/>,
+          path : "category/:category",
+          loader : loadPosts
         }
       ]
     }, {

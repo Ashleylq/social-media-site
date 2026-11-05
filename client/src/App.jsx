@@ -10,7 +10,7 @@ function App(){
         <>
         <AudioProvider>
             <div className="bg" aria-hidden="true"></div>
-            <div className="content">
+            <div className="content" onMouseOver={() => playHover()}>
                 <div className="navbar-container"><Navbar/></div>
                 <main>
                 {(navigation.state === "loading") && <Loader/>}

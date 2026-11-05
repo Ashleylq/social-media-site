@@ -49,19 +49,27 @@ postsRoute.delete('/:id', async (req, res) => {
 })
 
 postsRoute.get('/', async (req, res) => {
-    const page = parseInt(req.query.page) * 10
+    const page = parseInt(req.query.page) 
     const posts = await prisma.post.findMany({
         orderBy : {
             uploaded_at : 'desc'
         },
         skip : page,
-        take : 10
+        take : 10,
+        include : {
+            profile : {
+                include : {
+                    user : true
+                }
+            },
+            category : true
+        }
     })
     res.json({posts : posts})
 })
 
 postsRoute.get('/following', async (req, res) => {
-    const page = parseInt(req.query.page) * 10
+    const page = parseInt(req.query.page) 
     const posts = await prisma.post.findMany({
         where : {
             profile : {
@@ -76,19 +84,30 @@ postsRoute.get('/following', async (req, res) => {
             uploaded_at : "desc"
         },
         skip : page,
-        take : 10
+        take : 10,
+        include : {
+            profile : {
+                include : {
+                    user : true
+                }
+            },
+            category : true
+        }
     })
     res.json({posts : posts})
 })
 
 postsRoute.get('/search', async (req, res) => {
     const category = req.query.category
-    const page = parseInt(req.query.page) * 10
+    const page = parseInt(req.query.page) 
     const posts = await prisma.post.findMany({
         where : {
             category : {
                 some : {
-                    name : category
+                    name : {
+                        contains : category,
+                        mode : "insensitive"
+                    }
                 }
             }
         },
@@ -96,7 +115,15 @@ postsRoute.get('/search', async (req, res) => {
             uploaded_at : "desc"
         },
         skip : page,
-        take : 10
+        take : 10,
+        include : {
+            profile : {
+                include : {
+                    user : true
+                }
+            },
+            category : true
+        }
     })
     res.json({posts : posts})
 })
