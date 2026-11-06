@@ -10,6 +10,11 @@ function ViewPosts(){
     const [page, setPage] = useState(10)
     const [hasMore, setHasMore] = useState(true)
     const sentinelRef = useRef(null)
+    if(posts.length === 0){
+        return (
+            <div className="center">Looks like no post matches your preferences -_-</div>
+        )
+    }
     useEffect(() => {
         const observer = new IntersectionObserver(([entry]) => {
             if(entry.isIntersecting  && fetcher.state === "idle" && hasMore){

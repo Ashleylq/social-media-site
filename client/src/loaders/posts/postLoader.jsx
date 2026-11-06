@@ -21,6 +21,5 @@ export default async function loadPosts({request, params}){
         throw new Response("Internal Error", {status : 500})
     }
     const result = await res.json()
-    alert(JSON.stringify(result))
     return result.posts
 }

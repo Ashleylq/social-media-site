@@ -49,6 +49,15 @@ main {
   overflow-y: auto;
 }
 
+.center {
+  font-family : "Sulphur Point";
+  margin : 30vh auto;
+  width : max-content;
+  font-size : 1.5rem;
+  font-weight : bold;
+  color : #001C66
+}
+
 a, a:focus, a:active, a:visited {
   text-decoration: none;
   outline: none;
