@@ -22,7 +22,7 @@ import loadPosts from './loaders/posts/postLoader.jsx'
 const Router = createBrowserRouter([{
   path : "/",
   element : <App/>,
-  //errorElement : <ErrorBoundary/>,
+  errorElement : <ErrorBoundary/>,
   children : [
     {
       element : <Profile/>,

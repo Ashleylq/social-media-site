@@ -31,6 +31,34 @@
         width : 75%;
         margin : auto;
     }
+    .flex {
+        display : flex;
+        justify-content: space-around;
+        margin-bottom : 10px;
+        .edit {
+            --bg-dark : rgba(0, 50, 219, 0.8);
+            --bg : rgba(0, 50, 219, 0.4);
+            --b-color : white
+        }
+        .delete {
+            --bg-dark : rgba(255, 64, 0, 0.8);
+            --bg : rgba(255, 64, 0, 0.4);
+            --b-color : white;
+        }
+    }
+    textarea {
+        font-family : "Sulphur Point";
+        font-size : 1rem;
+        display : block;
+        width : max-content;
+        margin : 10px auto;
+    }
+    .error {
+        font-family: "Sulphur Point";
+        color : #ff4000;
+        margin : 5px auto;
+        width : max-content
+    }
 }
 
 @media (max-width : 768px){

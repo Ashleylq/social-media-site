@@ -33,9 +33,26 @@ function ViewPosts(){
         setHasMore(fetcher.data.length === 10)
         setPage((prev) => prev + 1)
     }, [fetcher.data])
+
+    function deletePost(id){
+        setPosts(posts => posts.filter(p => p.id !== id))
+        setPage(prev => prev - 1)
+    }
+
+    function editPost(newPost){
+        setPosts(posts => posts.map(post => {
+            if(post.id === newPost.id){
+                return newPost
+            }
+            else {
+                return post
+            }
+        }))
+    }
+
     return (
         <>
-        {posts.map(post => <PostElement post={post}/>)}
+        {posts.map(post => <PostElement post={post} deletePost={deletePost} editPost={editPost}/>)}
         <div ref={sentinelRef}></div>
         </>
     )

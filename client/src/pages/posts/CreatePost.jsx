@@ -49,6 +49,11 @@ function CreatePost(){
     const submitHook = useSubmit()
     function submit(e){
         e.preventDefault()
+        if(contentRef.current.value.trim() === "" && !img){
+            setError("Content should not be empty if no attachment is provided")
+            return
+        }
+        setError(null)
         submitHook({
             content : contentRef.current.value,
             attachment : img,

@@ -32,21 +32,39 @@ postsRoute.post('/', async (req, res) => {
 postsRoute.put('/:id', async (req, res) => {
     const id = parseInt(req.params.id)
     const { content } = req.body
-    await prisma.post.update({
+    try {
+        await prisma.post.update({
         where : {
-            id : id
+            id : id,
+            profile : {
+                userId : req.user.id
+            }
         },
         data : {
             content : content
         }
-    })
-    res.status(204).end()
+        })
+        res.status(204).end()
+    } catch(err){
+        res.status(403).end()
+    }
 })
 
 postsRoute.delete('/:id', async (req, res) => {
     const id = parseInt(req.params.id)
-    await prisma.post.delete({where : {id : id}})
-    res.status(204).end()
+    try {
+        await prisma.post.delete({
+        where : {
+            id : id,
+            profile : {
+                userId : req.user.id
+            }
+        }
+        })
+        res.status(204).end()
+    } catch(err){
+        res.status(403).end()
+    }
 })
 
 postsRoute.get('/', async (req, res) => {

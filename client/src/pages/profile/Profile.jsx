@@ -6,10 +6,12 @@ import { getCredentials, logOut } from "../../utils/authFunctions.jsx"
 import { useRef } from "react"
 import { useAudio } from "../../utils/audioContext.jsx"
 import PostElement from "../../components/posts/PostElement.jsx"
+import { useState } from "react"
 
 function Profile() {
     const {playSfx} = useAudio()
-    const profile = useLoaderData()
+    const data = useLoaderData()
+    const [profile, setProfile] = useState(data)
     const user = getCredentials()
     const navigate = useNavigate()
     const fersDialogRef = useRef(null)
@@ -23,6 +25,22 @@ function Profile() {
     }
     const isFollower = () =>  (profile.followers.some(follower => follower.userId === user.id))
     const fetcher = useFetcher()
+
+    function deletePost(id){
+        setProfile(prev => ({...prev, post : prev.post.filter(post => post.id !== id)}))
+    }
+
+    function editPost(newPost){
+        setProfile(prev => ({...prev, post : prev.post.map(post => {
+            if(post.id === newPost.id){
+                return newPost
+            }
+            else {
+                return post
+            }
+        })}))
+    }
+
     return (
         <>
             <div className={styles.container}>
@@ -80,7 +98,7 @@ function Profile() {
                     </fetcher.Form>} </>
                 }
             </div>
-            {profile.post.map(post => <PostElement post={post}/>)}
+            {profile.post.map(post => <PostElement post={post} deletePost={deletePost} editPost={editPost}/>)}
         </>
     )
 }
