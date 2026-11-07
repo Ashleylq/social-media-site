@@ -31,6 +31,7 @@ model post {
   id Int @id@default(autoincrement())
   content String
   attachment String?
+  attachmentType String?
   uploaded_at DateTime @default(now())
   profile profile @relation(fields : [profileId], references: [id])
   profileId Int

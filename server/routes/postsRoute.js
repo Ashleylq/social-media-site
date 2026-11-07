@@ -7,11 +7,12 @@ const postsRoute = Router()
 postsRoute.use(passport.authenticate("jwt", {session : false}))
 
 postsRoute.post('/', async (req, res) => {
-    const { content, attachment, categories } = req.body
+    const { content, attachment, categories, attachmentType } = req.body
     await prisma.post.create({ 
         data : {
             content : content,
             attachment : attachment,
+            attachmentType : attachmentType,
             profileId : req.user.profile.id,
             category : {
                 connectOrCreate : categories.map(name => ({

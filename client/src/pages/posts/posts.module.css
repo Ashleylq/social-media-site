@@ -105,6 +105,13 @@
     }
 }
 
+.error {
+    font-family: "Sulphur Point";
+    margin: 5px auto;
+    color : #ff4000;
+    width: max-content;
+}
+
 @media (max-width : 768px){
     .nav {
         width : 80%;
