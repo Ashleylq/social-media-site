@@ -22,7 +22,19 @@ async function getProfile(userId, updData=false){
                     username : true
                 }
             },
-            post : true,
+            post : {
+                orderBy : {
+                    uploaded_at : "desc"
+                },
+                include : {
+                    profile : {
+                        include : {
+                            user : true
+                        }
+                    },
+                    category : true
+                }
+            },
             followers : {
                 select : {
                     displayName : true,

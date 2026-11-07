@@ -5,6 +5,7 @@ import styles from "./profile.module.css"
 import { getCredentials, logOut } from "../../utils/authFunctions.jsx"
 import { useRef } from "react"
 import { useAudio } from "../../utils/audioContext.jsx"
+import PostElement from "../../components/posts/PostElement.jsx"
 
 function Profile() {
     const {playSfx} = useAudio()
@@ -24,7 +25,7 @@ function Profile() {
     const fetcher = useFetcher()
     return (
         <>
-            {profile && <div className={styles.container}>
+            <div className={styles.container}>
                 <dialog className={styles.dialog} ref={fersDialogRef}>
                     <span onClick={() => {
                         fersDialogRef.current.close()
@@ -79,7 +80,7 @@ function Profile() {
                     </fetcher.Form>} </>
                 }
             </div>
-            }
+            {profile.post.map(post => <PostElement post={post}/>)}
         </>
     )
 }
