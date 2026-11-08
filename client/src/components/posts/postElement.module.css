@@ -61,6 +61,26 @@
     }
 }
 
+.centerFlex {
+    display : flex;
+    justify-content: center;
+    gap : 10px
+}
+
+.endFlex {
+    padding : 10px 30px;
+    display : flex;
+    justify-content: space-between;
+}
+
+.num {
+    font-family : "Sulphur Point";
+    font-size : 0.8rem;
+    font-weight: bold;
+    width : max-content;
+    margin : 3px auto;
+}
+
 @media (max-width : 768px){
     .post {
         width : 80%;

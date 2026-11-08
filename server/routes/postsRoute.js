@@ -67,6 +67,25 @@ postsRoute.delete('/:id', async (req, res) => {
     }
 })
 
+const postData = {
+    profile : {
+        include : {
+            user : true
+        }
+    },
+    category : true,
+    likes : {
+        select : {
+            userId : true
+        }
+    },
+    dislikes : {
+        select : {
+            userId : true
+        }
+    }
+}
+
 postsRoute.get('/', async (req, res) => {
     const page = parseInt(req.query.page) 
     const posts = await prisma.post.findMany({
@@ -75,14 +94,7 @@ postsRoute.get('/', async (req, res) => {
         },
         skip : page,
         take : 10,
-        include : {
-            profile : {
-                include : {
-                    user : true
-                }
-            },
-            category : true
-        }
+        include : postData
     })
     res.json({posts : posts})
 })
@@ -104,14 +116,7 @@ postsRoute.get('/following', async (req, res) => {
         },
         skip : page,
         take : 10,
-        include : {
-            profile : {
-                include : {
-                    user : true
-                }
-            },
-            category : true
-        }
+        include : postData
     })
     res.json({posts : posts})
 })
@@ -135,16 +140,75 @@ postsRoute.get('/search', async (req, res) => {
         },
         skip : page,
         take : 10,
-        include : {
-            profile : {
-                include : {
-                    user : true
-                }
-            },
-            category : true
-        }
+        include : postData
     })
     res.json({posts : posts})
+})
+
+postsRoute.post('/like/:id', async (req, res) => {
+    const id = parseInt(req.params.id)
+    await prisma.post.update({
+        where : {
+            id : id
+        },
+        data : {
+            likes : {
+                connect : {
+                    userId : req.user.id
+                }
+            },
+            dislikes : {
+                disconnect : {
+                    userId : req.user.id
+                }
+            }
+        }
+    })
+    res.status(204).end()
+})
+
+postsRoute.post('/dislike/:id', async (req, res) => {
+    const id = parseInt(req.params.id)
+    await prisma.post.update({
+        where : {
+            id : id
+        },
+        data : {
+            likes : {
+                disconnect : {
+                    userId : req.user.id
+                }
+            },
+            dislikes : {
+                connect : {
+                    userId : req.user.id
+                }
+            }
+        }
+    })
+    res.status(204).end()
+})
+
+postsRoute.delete('/unlike/:id', async (req, res) => {
+    const id = parseInt(req.params.id)
+    await prisma.post.update({
+        where : {
+            id : id
+        },
+        data : {
+            likes : {
+                disconnect : {
+                    userId : req.user.id
+                }
+            },
+            dislikes : {
+                disconnect : {
+                    userId : req.user.id
+                }
+            }
+        }
+    })
+    res.status(204).end()
 })
 
 export default postsRoute

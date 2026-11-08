@@ -34,9 +34,8 @@ export function AudioProvider({children}){
             setIsPlaying(true)
         }
     }
-    const [playClick] = useSound('/glassy.wav', {volume : 0.6})
     const [playInteraction] = useSound('/chime.mp3', {volume : 0.6})
-    const [playHover] = useSound('/futuristic.mp3', {volume : 0.6})
+    const [playClick] = useSound('/futuristic.mp3', {volume : 0.6})
     const [playLink] = useSound('/bubbles.wav', {volume : 0.6})
     function playSfx(soundName){
         switch (soundName){
@@ -45,9 +44,6 @@ export function AudioProvider({children}){
                 break;
             case "interaction":
                 playInteraction()
-                break;
-            case "hover":
-                playHover()
                 break;
             case "link":
                 playLink()

@@ -25,6 +25,8 @@ model profile {
   followers profile[] @relation("userFollows")
   following profile[] @relation("userFollows")
   post post[]
+  liked post[] @relation("like")
+  disliked post[] @relation("dislike")
 }
 
 model post {
@@ -36,6 +38,8 @@ model post {
   profile profile @relation(fields : [profileId], references: [id])
   profileId Int
   category category[] @relation("postCategory")
+  likes profile[] @relation("like")
+  dislikes profile[] @relation("dislike")
 }
 
 model category {

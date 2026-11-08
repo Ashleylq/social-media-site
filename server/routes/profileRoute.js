@@ -32,7 +32,17 @@ async function getProfile(userId, updData=false){
                             user : true
                         }
                     },
-                    category : true
+                    category : true,
+                    likes : {
+                        select : {
+                            userId : true
+                        }
+                    },
+                    dislikes : {
+                        select : {
+                            userId : true
+                        }
+                    }
                 }
             },
             followers : {
