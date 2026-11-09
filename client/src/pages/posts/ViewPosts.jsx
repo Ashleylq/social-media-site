@@ -1,6 +1,6 @@
 import { useFetcher, useLoaderData, useLocation } from "react-router"
 import PostElement from "../../components/posts/PostElement.jsx"
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 function ViewPosts(){
     const location = useLocation()
@@ -34,12 +34,12 @@ function ViewPosts(){
         setPage((prev) => prev + 1)
     }, [fetcher.data])
 
-    function deletePost(id){
+    const deletePost = useCallback((id) => {
         setPosts(posts => posts.filter(p => p.id !== id))
         setPage(prev => prev - 1)
-    }
+    }, [])
 
-    function editPost(newPost){
+    const editPost = useCallback((newPost) => {
         setPosts(posts => posts.map(post => {
             if(post.id === newPost.id){
                 return newPost
@@ -48,7 +48,7 @@ function ViewPosts(){
                 return post
             }
         }))
-    }
+    }, [])
 
     return (
         <>

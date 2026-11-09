@@ -4,12 +4,11 @@ import styles from "./postElement.module.css"
 import { format, quality } from "@cloudinary/url-gen/actions/delivery";
 import { getCredentials } from "../../utils/authFunctions.jsx"
 import { useAudio } from "../../utils/audioContext.jsx";
-import { useRef, useState } from "react";
+import { useRef, useState, memo } from "react";
 import { useNavigate } from "react-router";
 import CommentIcon from "@mui/icons-material/Comment"
 import ThumbDownIcon from "@mui/icons-material/ThumbDown"
 import ThumbUpIcon from "@mui/icons-material/ThumbUp"
-import { position } from "@mui/system";
 
 const cld = new Cloudinary({
     cloud : {
@@ -17,7 +16,7 @@ const cld = new Cloudinary({
     }
 })
 
-export default function PostElement({post, deletePost, editPost}){
+const PostElement = memo(function PostElement({post, deletePost, editPost}){
     const {playSfx} = useAudio()
     const user = getCredentials()
     const navigate = useNavigate()
@@ -218,4 +217,6 @@ export default function PostElement({post, deletePost, editPost}){
             ))}
         </div>
     )
-}
+})
+
+export default PostElement

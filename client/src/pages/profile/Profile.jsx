@@ -3,7 +3,7 @@ import ProfilePicture from "../../components/profile/ProfilePicture.jsx"
 import ProfileList from "../../components/profile/ProfileList.jsx"
 import styles from "./profile.module.css"
 import { getCredentials, logOut } from "../../utils/authFunctions.jsx"
-import { useRef } from "react"
+import { useCallback, useRef } from "react"
 import { useAudio } from "../../utils/audioContext.jsx"
 import PostElement from "../../components/posts/PostElement.jsx"
 import { useState } from "react"
@@ -26,11 +26,11 @@ function Profile() {
     const isFollower = () =>  (profile.followers.some(follower => follower.userId === user.id))
     const fetcher = useFetcher()
 
-    function deletePost(id){
+    const deletePost = useCallback((id) => {
         setProfile(prev => ({...prev, post : prev.post.filter(post => post.id !== id)}))
-    }
+    }, [])
 
-    function editPost(newPost){
+    const editPost = useCallback((newPost) => {
         setProfile(prev => ({...prev, post : prev.post.map(post => {
             if(post.id === newPost.id){
                 return newPost
@@ -39,7 +39,7 @@ function Profile() {
                 return post
             }
         })}))
-    }
+    }, [])
 
     return (
         <>
