@@ -26,11 +26,11 @@ export default function CommentSection({editPost, post}){
     }
     return (
         <>
-            <div className={styles.create}>
+            <div className={styles.createComment}>
                 <input ref={commentRef} name="content" id="content" placeholder="Comment on this post" />
                 <button onClick={createComment}>Create</button>
             </div>
-            {post.comments.map(comment => <Comment comment={comment} />)}
+            {post.comments.map(comment => <Comment comment={comment} post={post} editPost={editPost}/>)}
         </>
     )
 }

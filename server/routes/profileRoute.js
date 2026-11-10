@@ -49,6 +49,15 @@ async function getProfile(userId, updData=false){
                                 include : {
                                     user : true
                                 }
+                            },
+                            replies : {
+                                include : {
+                                    profile : {
+                                        include : {
+                                            user : true
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

@@ -1,6 +1,6 @@
-.create {
+.createComment, 
+.createReply{
     background-color: white;
-    margin : 20px auto;
     border-radius : 20px;
     display : flex;
     justify-content : end;
@@ -35,12 +35,20 @@
     animation: fade-in 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-.comment {
+.createComment{
+    margin : 20px auto
+}
+
+.createReply {
+    margin : 10px
+}
+
+.comment, .reply {
     padding : 5px;
     opacity: 0;
     animation: fade-in 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
     background : linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.25));
-    margin : 10px;
+    margin : 20px 10px;
     border-radius: 10px;
     width : 60%;
     box-shadow: 4px 4px rgba(0, 0, 0, 0.4);
@@ -56,6 +64,10 @@
         font-weight : bold;
         font-size : 0.9rem;
     }
+}
+
+.replies {
+    margin-left : 10%;
 }
 
 .endFlex {

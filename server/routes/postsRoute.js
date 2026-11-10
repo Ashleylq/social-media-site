@@ -91,6 +91,15 @@ const postData = {
                 include : {
                     user : true
                 }
+            },
+            replies : {
+                include : {
+                    profile : {
+                        include : {
+                            user : true
+                        }
+                    }
+                }
             }
         }
     }
