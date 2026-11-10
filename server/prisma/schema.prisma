@@ -27,6 +27,10 @@ model profile {
   post post[]
   liked post[] @relation("like")
   disliked post[] @relation("dislike")
+  comments_liked comment[] @relation("comment likes")
+  comments comment[]
+  replies_liked reply[] @relation("reply likes")
+  replies reply[]
 }
 
 model post {
@@ -40,10 +44,34 @@ model post {
   category category[] @relation("postCategory")
   likes profile[] @relation("like")
   dislikes profile[] @relation("dislike")
+  comments comment[]
 }
 
 model category {
   id Int @id@default(autoincrement())
   name String @unique
   post post[] @relation("postCategory")
+}
+
+model comment {
+  id Int @id@default(autoincrement())
+  commented_at DateTime @default(now())
+  content String
+  likes profile[] @relation("comment likes")
+  post post @relation(fields : [postId], references: [id])
+  postId Int
+  profile profile @relation(fields : [profileId], references: [id])
+  profileId Int
+  replies reply[]
+}
+
+model reply {
+  id Int @id@default(autoincrement())
+  commentId Int
+  comment comment @relation(fields: [commentId], references: [id])
+  commented_at DateTime @default(now())
+  likes profile[] @relation("reply likes")
+  content String
+  profileId Int
+  profile profile @relation(fields : [profileId], references: [id])
 }

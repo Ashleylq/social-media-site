@@ -1,4 +1,4 @@
-.container {
+.container, .mini {
     background : linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(105, 207, 255, 0.6));
     margin : 20px;
     border-radius : 20px;
@@ -24,13 +24,25 @@
         margin-top : 15px
     }
     .display {
+        font-family : "Sulphur Point";
         font-weight: bold;
         font-size: 1.2rem;
     }
     .user {
+        font-family: "Sulphur Point";
         font-weight: lighter;
         font-size: 0.8rem;
         margin-top : 3px;
+    }
+}
+
+.mini {
+    height : max-content;
+    width : 70%;
+    padding : 5px;
+    margin : 10px;
+    .nameContainer {
+        margin-top : 7px
     }
 }
 

@@ -42,6 +42,15 @@ async function getProfile(userId, updData=false){
                         select : {
                             userId : true
                         }
+                    },
+                    comments : {
+                        include : {
+                            profile : {
+                                include : {
+                                    user : true
+                                }
+                            }
+                        }
                     }
                 }
             },

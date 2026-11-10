@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { prisma } from "../lib/prisma.js";
 import passport from "passport";
+import commentsRoute from "./commentsRoute.js";
 
 const postsRoute = Router()
 
@@ -82,6 +83,15 @@ const postData = {
     dislikes : {
         select : {
             userId : true
+        }
+    },
+    comments : {
+        include : {
+            profile : {
+                include : {
+                    user : true
+                }
+            }
         }
     }
 }
@@ -210,5 +220,7 @@ postsRoute.delete('/unlike/:id', async (req, res) => {
     })
     res.status(204).end()
 })
+
+postsRoute.use('/:postid/comment', commentsRoute)
 
 export default postsRoute

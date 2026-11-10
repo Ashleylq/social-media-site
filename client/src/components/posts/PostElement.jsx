@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import CommentIcon from "@mui/icons-material/Comment"
 import ThumbDownIcon from "@mui/icons-material/ThumbDown"
 import ThumbUpIcon from "@mui/icons-material/ThumbUp"
+import CommentSection from "../comment/CommentSection.jsx";
 
 const cld = new Cloudinary({
     cloud : {
@@ -148,6 +149,8 @@ const PostElement = memo(function PostElement({post, deletePost, editPost}){
         }
     }
 
+    const [commentVisibility, setCommentVisibility] = useState(false)
+
     if(error){
         throw error
     }
@@ -162,6 +165,16 @@ const PostElement = memo(function PostElement({post, deletePost, editPost}){
             {mode === "view" ?
             <>
             <p>{post.content}</p>
+            <p className={styles.date}>{new Date(post.uploaded_at).toLocaleString("en-US", {
+                    day : "numeric",
+                    month : "long",
+                    year : "numeric",
+                    hour : "numeric",
+                    minute : "numeric"
+                })}</p>
+            {post.category.map((cat, index) => (
+                <span key={index}>{cat.name}</span>
+            ))}
             {post.profile.user.id === user.id && 
             <div className={styles.flex}>
                 <button onClick={() => {
@@ -204,17 +217,20 @@ const PostElement = memo(function PostElement({post, deletePost, editPost}){
                         <p className={styles.num}>{post.dislikes.length}</p>
                     </div>
                 </div>
+                <div onClick={() => {
+                    playSfx("click")
+                    setCommentVisibility(prev => !prev)
+                }}>
+                    <CommentIcon sx={{
+                        fontSize : 32,
+                        color : commentVisibility ? "#00aeef" : "#0070c0",
+                        transition : 'color 0.5s ease-out'
+                    }}/>
+                </div>
             </div>
-            <p className={styles.date}>{new Date(post.uploaded_at).toLocaleString("en-US", {
-                    day : "numeric",
-                    month : "long",
-                    year : "numeric",
-                    hour : "numeric",
-                    minute : "numeric"
-                })}</p>
-            {post.category.map((cat, index) => (
-                <span key={index}>{cat.name}</span>
-            ))}
+            <div style={{display : commentVisibility ? "block" : "none"}}>
+                <CommentSection editPost={editPost} post={post}/>
+            </div>
         </div>
     )
 })
