@@ -19,11 +19,21 @@ commentsRoute.post('/', async (req, res) => {
                     user : true
                 }
             },
+            likes : {
+                select : {
+                    userId : true
+                }
+            },
             replies : {
                 include : {
                     profile : {
                         include : {
                             user : true
+                        }
+                    },
+                    likes : {
+                        select : {
+                            userId : true
                         }
                     }
                 }
@@ -31,6 +41,38 @@ commentsRoute.post('/', async (req, res) => {
         }
     })
     res.json({comment : comment})
+})
+
+commentsRoute.post('/like/:id', async (req, res) => {
+    await prisma.comment.update({
+        where : {
+            id : parseInt(req.params.id)
+        },
+        data : {
+            likes : {
+                connect : {
+                    userId : req.user.id
+                }
+            }
+        }
+    })
+    res.status(204).end()
+})
+
+commentsRoute.delete('/unlike/:id', async (req, res) => {
+    await prisma.comment.update({
+        where : {
+            id : parseInt(req.params.id)
+        },
+        data : {
+            likes : {
+                disconnect : {
+                    userId : req.user.id
+                }
+            }
+        }
+    })
+    res.status(204).end()
 })
 
 commentsRoute.use('/:commentid/replies', repliesRoute)

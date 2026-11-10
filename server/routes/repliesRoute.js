@@ -17,10 +17,47 @@ repliesRoute.post('/', async (req, res) => {
                 include : {
                     user : true
                 }
+            },
+            likes : {
+                select : {
+                    userId : true
+                }
             }
         }
     })
     res.json({reply : reply})
+})
+
+repliesRoute.post('/like/:id', async (req, res) => {
+    await prisma.reply.update({
+        where : {
+            id : parseInt(req.params.id)
+        },
+        data : {
+            likes : {
+                connect : {
+                    userId : req.user.id
+                }
+            }
+        }
+    })
+    res.status(204).end()
+})
+
+repliesRoute.delete("/unlike/:id", async (req, res) => {
+    await prisma.reply.update({
+        where : {
+            id : parseInt(req.params.id)
+        },
+        data : {
+            likes : {
+                disconnect : {
+                    userId : req.user.id
+                }
+            }
+        }
+    })
+    res.status(204).end()
 })
 
 export default repliesRoute

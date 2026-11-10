@@ -66,6 +66,14 @@
     }
 }
 
+.num {
+    font-family: "Sulphur Point";
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin : 3px auto;
+    width : max-content
+}
+
 .replies {
     margin-left : 10%;
 }

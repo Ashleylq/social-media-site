@@ -1,11 +1,15 @@
 import styles from "./comment.module.css"
 import Comment from "./Comment.jsx"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { useAudio } from "../../utils/audioContext.jsx"
+import { useNavigate } from "react-router"
 
 export default function CommentSection({editPost, post}){
     const {playSfx} = useAudio()
     const commentRef = useRef(null)
+    const navigate = useNavigate()
+    const [error, setError] = useState(null)
+
     async function createComment(){
         if(commentRef.current.value.trim() === ""){
             return;
@@ -18,12 +22,23 @@ export default function CommentSection({editPost, post}){
                 content : commentRef.current.value
             })
         })
+        if(res.status === 401){
+            navigate("/signup", {replace : true})
+        }
+        else if(!res.ok){
+            setError(new Response("Internal error", {status : 500}))
+        }
         commentRef.current.value = ""
         const result = await res.json()
         const newPost = {...post}
         newPost.comments.push(result.comment)
         editPost(newPost)
     }
+
+    if(error){
+        throw error
+    }
+
     return (
         <>
             <div className={styles.createComment}>

@@ -50,11 +50,21 @@ async function getProfile(userId, updData=false){
                                     user : true
                                 }
                             },
+                            likes : {
+                                select : {
+                                    userId : true
+                                }
+                            },
                             replies : {
                                 include : {
                                     profile : {
                                         include : {
                                             user : true
+                                        }
+                                    },
+                                    likes : {
+                                        select :{
+                                            userId : true
                                         }
                                     }
                                 }
