@@ -1,1 +1,6 @@
-{}
+{
+    "scripts" : {
+        "build" : "npm run build --prefix server && npm run build --prefix client",
+        "start" : "npm run start --prefix server"
+    }
+}
