@@ -162,9 +162,11 @@ const PostElement = memo(function PostElement({post, deletePost, editPost}){
                 {post.attachmentType === "video" && <video src={attachment.toURL()} width="100%" height="auto"/>}
                 {post.attachmentType === "image" && <img src={attachment.toURL()} width="100%" height="auto"/>}
             </div>}
-            {mode === "view" ?
-            <>
-            <p>{post.content}</p>
+            {mode === "view" ? 
+             <p>{post.content}</p> : <>
+             <textarea ref={editRef} defaultValue={post.content}/>
+             {edErr && <p className={styles.error}>{edErr}</p>}
+             </>}
             <p className={styles.date}>{new Date(post.uploaded_at).toLocaleString("en-US", {
                     day : "numeric",
                     month : "long",
@@ -175,25 +177,22 @@ const PostElement = memo(function PostElement({post, deletePost, editPost}){
             {post.category.map((cat, index) => (
                 <span key={index}>{cat.name}</span>
             ))}
-            {post.profile.user.id === user.id && 
+            {post.profile.user.id === user.id && <>{mode === "view" ?
             <div className={styles.flex}>
                 <button onClick={() => {
                     playSfx("click")
                     setMode("edit")
                 }} className={styles.edit}>Edit</button>
                 <button onClick={() => delPost()} className={styles.delete}>Delete</button>
-            </div>}
-            </> : <>
-                <textarea ref={editRef} defaultValue={post.content}/>
-                {edErr && <p className={styles.error}>{edErr}</p>}
-                <div className={styles.flex}>
-                    <button onClick={() => edPost()} className={styles.edit}>Edit</button>
-                    <button onClick={() => {
-                        playSfx("click")
-                        setMode("view")
-                    }} className={styles.edit}>Back</button>
-                </div>
-            </>}
+            </div> : <>
+            <div className={styles.flex}>
+                <button onClick={() => edPost()} className={styles.edit}>Edit</button>
+                <button onClick={() => {
+                    playSfx("click")
+                    setMode("view")
+                }} className={styles.edit}>Back</button>
+            </div>
+            </>} </>}
             <div className={styles.endFlex}>
                 <div className={styles.centerFlex}>
                     <div onClick={() => like()}>
