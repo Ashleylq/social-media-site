@@ -43,6 +43,40 @@ commentsRoute.post('/', async (req, res) => {
     res.json({comment : comment})
 })
 
+commentsRoute.delete('/:id', async (req, res) => {
+    const id = parseInt(req.params.id)
+    try {
+        await prisma.comment.delete({
+            where : {
+                id : id,
+                profileId : req.user.profile.id
+            }
+        })
+        res.status(204).end()
+    } catch(err){
+        res.status(403).end()
+    }
+})
+
+commentsRoute.put('/:id', async (req, res) => {
+    const {content} = req.body
+    const id = parseInt(req.params.id)
+    try {
+        await prisma.comment.update({
+            where : {
+                id : id,
+                profileId : req.user.profile.id
+            },
+            data : {
+                content : content
+            }
+        })
+        res.status(204).end()
+    } catch(err){
+        res.status(403).end()
+    }
+})
+
 commentsRoute.post('/like/:id', async (req, res) => {
     await prisma.comment.update({
         where : {

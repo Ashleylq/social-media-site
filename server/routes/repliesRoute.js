@@ -28,6 +28,40 @@ repliesRoute.post('/', async (req, res) => {
     res.json({reply : reply})
 })
 
+repliesRoute.put('/:id', async (req, res) => {
+    const id = parseInt(req.params.id)
+    const {content} = req.body
+    try {
+        await prisma.reply.update({
+            where : {
+                id : id,
+                profileId : req.user.profile.id
+            },
+            data : {
+                content : content
+            }
+        })
+        res.status(204).end()
+    } catch(err){
+        res.status(403).end()
+    }
+})
+
+repliesRoute.delete('/:id', async (req, res) => {
+    const id = parseInt(req.params.id)
+    try {
+        await prisma.reply.delete({
+            where : {
+                id : id,
+                profileId : req.user.profile.id
+            }
+        })
+        res.status(204).end()
+    } catch(err){
+        res.status(403).end()
+    }
+})
+
 repliesRoute.post('/like/:id', async (req, res) => {
     await prisma.reply.update({
         where : {

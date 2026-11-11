@@ -184,15 +184,13 @@ const PostElement = memo(function PostElement({post, deletePost, editPost}){
                     setMode("edit")
                 }} className={styles.edit}>Edit</button>
                 <button onClick={() => delPost()} className={styles.delete}>Delete</button>
-            </div> : <>
-            <div className={styles.flex}>
+            </div> : <div className={styles.flex}>
                 <button onClick={() => edPost()} className={styles.edit}>Edit</button>
                 <button onClick={() => {
                     playSfx("click")
                     setMode("view")
                 }} className={styles.edit}>Back</button>
-            </div>
-            </>} </>}
+            </div>} </>}
             <div className={styles.endFlex}>
                 <div className={styles.centerFlex}>
                     <div onClick={() => like()}>

@@ -58,7 +58,7 @@ model comment {
   commented_at DateTime @default(now())
   content String
   likes profile[] @relation("comment likes")
-  post post @relation(fields : [postId], references: [id])
+  post post @relation(fields : [postId], references: [id], onDelete : Cascade)
   postId Int
   profile profile @relation(fields : [profileId], references: [id])
   profileId Int
@@ -68,7 +68,7 @@ model comment {
 model reply {
   id Int @id@default(autoincrement())
   commentId Int
-  comment comment @relation(fields: [commentId], references: [id])
+  comment comment @relation(fields: [commentId], references: [id], onDelete : Cascade)
   commented_at DateTime @default(now())
   likes profile[] @relation("reply likes")
   content String

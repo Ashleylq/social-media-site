@@ -86,6 +86,22 @@
     justify-content: space-between;
 }
 
+.flex {
+    display : flex;
+    justify-content: space-around;
+    margin-bottom : 5px;
+    .edit {
+        --bg-dark : rgba(0, 50, 219, 0.8);
+        --bg : rgba(0, 50, 219, 0.4);
+        --b-color : white;
+    }
+    .delete {
+        --bg-dark : rgba(255, 64, 0, 0.8);
+        --bg : rgba(255, 64, 0, 0.4);
+        --b-color : white;
+    }
+}
+
 @keyframes fade-in {
     from {
         opacity : 0;
